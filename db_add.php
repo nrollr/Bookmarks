@@ -1,5 +1,5 @@
-<?php include ('includes/connect.php'); ?> 
-<?php include ('includes/values.php'); ?>
+<?php include ('include/connect.php'); ?> 
+<?php include ('include/values.php'); ?>
 
 <!DOCTYPE html>
 <html lang="en">

@@ -1,4 +1,4 @@
-<?php include ('includes/values.php'); ?>
+<?php include ('include/values.php'); ?>
 
 <!DOCTYPE html>
 <html lang="en">
