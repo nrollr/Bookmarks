@@ -9,13 +9,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<title>Add Bookmarks</title>	
-	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
   </head>
 <body>
 <?php 
-	if($_POST['submit'] == 1) { //Add Bookmarks
+	if($_POST['submit'] == 1) { 	//Add Bookmarks
 		if($_POST['name'] == '') {
 			echo ''.$warning.'';
 			$error = true;
@@ -32,7 +32,7 @@
 	}
 ?>
 <?php 
-	if($_POST['submit'] == 2) { //Add Folders
+	if($_POST['submit'] == 2) { 	//Add Folders
 		if($_POST['name'] == '') {
 			echo ''.$warning.'';
 			$error = true;
@@ -113,8 +113,8 @@
 </div>  
 </div> 
 
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
 <script type="text/javascript" src="assets/javascript/jquery.tbs_dd.js" ></script>
 <script type="text/javascript">
