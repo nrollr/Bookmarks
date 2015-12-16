@@ -5,8 +5,6 @@ $warning = '<div class="alert alert-warning alert-dismissible" role="alert"><but
 $link = '<i class="fa fa-file-o"></i></a>';
 $folder = '<i class="fa fa-folder-o"></i>';
 
-
-$key = mt_rand(1000,9999);
 $date = date_create();
 $stamp = date_timestamp_get($date);
 
