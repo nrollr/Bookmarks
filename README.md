@@ -1,6 +1,6 @@
 # Bookmark database
 
-This repository contains a set of scripts to manage bookmarks in a MySQL database. Layout of the webpages are built with the [Bootstrap](http://getbootstrap.com/) framework. All pages have been tested with Apache/2.2.26 , PHP v.5.4.30 and MySQL v5.6.20
+This repository contains a set of scripts to manage bookmarks in a MySQL database. Layout of the webpages are built with the [Bootstrap](http://getbootstrap.com/) framework. All pages have been tested with Apache/2.4.16 , PHP v.5.5.30 and MySQL v5.6.27
 
 Download and copy the content of this repository to the DocumentRoot of your webserver… 
 
@@ -8,7 +8,7 @@ Download and copy the content of this repository to the DocumentRoot of your web
 
 ##### Setup of the MySQL database:
 
-- Edit the following files and change the database settings : replace ‘**host**' , '**username**' and '**password**' with the proper values 
+- Edit the following files and change the database settings : replace ‘**host**' , '**username**' , '**password**' and '**database**' with values which reflect your own configuration.
   
   - Files `connect.php` and `functions.php` in the include/ directory,
   - File `db_list.php`
