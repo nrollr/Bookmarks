@@ -9,8 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<title>Add Bookmarks</title>
-	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
   </head>
 <body>
@@ -26,8 +26,8 @@
 			$error = true;
 		}
 		if($error != true) {
-	
-	$query = "INSERT INTO links (id, name, url, parent, date, icon) VALUES ('".md5($_POST['url'])."', '$_POST[name]', '$_POST[url]', '$_POST[parent]', '$_POST[date]', '$_POST[icon]')";
+	// CRC32 hash for URL to create a unique ID
+	$query = "INSERT INTO links (id, name, url, parent, date, icon) VALUES ('".crc32($_POST['url'])."', '$_POST[name]', '$_POST[url]', '$_POST[parent]', '$_POST[date]', '$_POST[icon]')";
 	$result = mysqli_query($dbc, $query);
 		}
 	}
@@ -39,8 +39,8 @@
 			$error = true;
 		}
 		if($error != true) {
-	
-	$query = "INSERT INTO links (id, name, parent, type, icon) VALUES ('".md5($_POST['name'])."', '$_POST[name]', '$_POST[parent]', '$_POST[type]', '$_POST[icon]')";
+	// CRC32 hash for folder name to create a unique ID	
+	$query = "INSERT INTO links (id, name, parent, type, icon) VALUES ('".crc32($_POST['name'])."', '$_POST[name]', '$_POST[parent]', '$_POST[type]', '$_POST[icon]')";
 	$result = mysqli_query($dbc, $query);
 		}
 	}
@@ -112,8 +112,8 @@
 </div>
 </div>
 
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <script type="text/javascript" src="assets/javascript/jquery.tbs_dd.js"></script>
 <script type="text/javascript">
