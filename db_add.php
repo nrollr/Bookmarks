@@ -1,131 +1,145 @@
-<?php include ('include/connect.php'); ?>
-<?php include ('include/values.php'); ?>
+<?php
+	include "include/connect.php";
 
+	$date = date_create(); $timestamp = date_timestamp_get($date);
+	$warning = '<div class="ui negative message"><i class="close icon"></i><div class="header">Warning!</div><p>A required field is missing!</p></div>';
+?>
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<title>Add Bookmarks</title>
-	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
-  </head>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.3/dist/semantic.min.css" />
+	<link rel="stylesheet" href="assets/css/style.css" />
+</head>
 <body>
-
-<?php
-	if($_POST['submit'] == 1) { 	//Add Bookmarks
+<br>
+<br>
+<div class="ui text container">
+<?php //Add Bookmarks
+	if($_POST['submit'] == 1) {
 		if($_POST['name'] == '') {
 			echo ''.$warning.'';
 			$error = true;
 		}
-		if($_POST['url'] == '') {
+		elseif($_POST['url'] == '') {
 			echo ''.$warning.'';
 			$error = true;
 		}
 		if($error != true) {
 	// CRC32 hash for URL to create a unique ID
-	$query = "INSERT INTO links (id, name, url, parent, date, icon) VALUES ('".crc32($_POST['url'])."', '$_POST[name]', '$_POST[url]', '$_POST[parent]', '$_POST[date]', '$_POST[icon]')";
+	$query = "INSERT INTO links (id, name, url, parent, date) VALUES ('".crc32($_POST['url'])."', '$_POST[name]', '$_POST[url]', '$_POST[parent]', '$_POST[date]')";
 	$result = mysqli_query($dbc, $query);
 		}
 	}
 ?>
-<?php
-	if($_POST['submit'] == 2) { 	//Add Folders
+<?php //Add Folders
+	if($_POST['submit'] == 2) {
 		if($_POST['name'] == '') {
 			echo ''.$warning.'';
 			$error = true;
 		}
 		if($error != true) {
-	// CRC32 hash for folder name to create a unique ID	
-	$query = "INSERT INTO links (id, name, parent, type, icon) VALUES ('".crc32($_POST['name'])."', '$_POST[name]', '$_POST[parent]', '$_POST[type]', '$_POST[icon]')";
+	// CRC32 hash for folder name to create a unique ID
+	$query = "INSERT INTO links (id, name, parent, type) VALUES ('".crc32($_POST['name'])."', '$_POST[name]', '$_POST[parent]', '$_POST[type]')";
 	$result = mysqli_query($dbc, $query);
 		}
 	}
 ?>
-
-<div class="container">
-<div class="page-header">
-  <h1>Add bookmarks</h1>
-  <p class="lead">Basic interface to <strong>add</strong> bookmarks or folders to the database
-  <a href="db_add.php" class="none"><sup><i class="fa fa-refresh"></i></sup></a></p>
 </div>
-
+<br>
+<br>
+<div class="ui text container">
+<h1 class="ui dividing header">Add bookmarks
+	<div class="sub header">
+		Basic interface to <strong>add</strong> bookmarks or folders to the database&nbsp;
+		<a href="db_add.php"><i class="sync alternate icon grey"></i></a>
+	</div>
+</h1>
 <!--Add Bookmarks-->
-<div class="row" id="list">
-	<div class="col-md-4">
-	<p>Recently added <b>bookmarks</b> :</p>
-		<?php
-			$result = mysqli_query($dbc, "SELECT * FROM links WHERE type = 1 ORDER BY date DESC LIMIT 5");
-			while ($output = mysqli_fetch_assoc($result)) {
-				echo ''.$link.'<a href="'.$output['url'].'">'.$output['name'].'</a><br />'; }
-			?>
+<div class="ui grid">
+	<div class="eight wide column">
+			<p>Recently added <b>bookmarks</b> :</p>
+			<div class="ui list">
+				<?php
+					$result = mysqli_query($dbc, "SELECT * FROM `links` WHERE type = 1 ORDER BY date DESC LIMIT 5");
+						while ($output = mysqli_fetch_assoc($result)) {
+							echo '<div class="item"><i class="bookmark outline icon grey"></i><div class="content"><a href="'.$output['url'].'">'.$output['name'].'</a></div></div>'; }
+						?>
+			</div>
 	</div>
-	<div class="col-md-4 col-md-offset-1">
+	<div class="eight wide column">
 		<p>Add new <b>bookmarks</b> :</p>
-		<form method="post" action="db_add.php" role="form" id="main">
-		  <div class="form-group"><input type="text" name="name" value="" class="form-control" placeholder="Bookmark name" autocomplete="off"/></div>
-		  <div class="form-group"><input type="text" name="url" value="" class="form-control" placeholder="http:// " autocomplete="off"/></div>
-		  
-		<div id="_filter" class="btn-group pull-right">
-		    <button name="submit" type="submit" class="btn btn-default " value="1"><i class="fa fa-file-o"></i>Add bookmark </button>
-		    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Folder <span class="caret"></span></button>
-		    <ul class="dropdown-menu" role="menu">
-		    	<li role="presentation"><a role="menuitem" tabindex="-1" href="#0">Unsorted Bookmarks</a></li>
-		   	    <li role="presentation" class="divider"></li>
-		    	<?php
-		    		$result = mysqli_query($dbc, "SELECT * FROM links WHERE type = 0");
-		    		while ($output = mysqli_fetch_assoc($result)) {
-		    			echo '<li role="presentation"><a href="#'.$output['id'].'" role="menuitem" tabindex="-1">'.$output['name'].'</a></li>'; }
-		    		?>
-		    </ul>
-		  </div>
-		  <input type="hidden" name="parent" value="<?php echo ''.$output['parent'].'' ?>" />
-		  <input type="hidden" name="date" value="<?php echo ''.$stamp.''; ?>" />
-		  <input type="hidden" name="icon" value="fa-file-o" />
+		<form method="POST" action="db_add.php" class="ui form" id="main">
+			<div class="field">
+				<input type="text" name="name" value="" placeholder="Bookmark name" autocomplete="off">
+			</div>
+			<div class="field">
+				<input type="text" name="url" value="" placeholder="http:// " autocomplete="off">
+			</div>
+			<div class="two fields" >
+				<div class="field">
+					<button class="ui basic button" name="submit" type="submit" value="1"><i class="file outline icon"></i>Add bookmark</button>
+				</div>
+				<div class="field">
+					<select name="Folder" class="ui fluid dropdown" id="select" onchange="run()">
+						<option value="">Folder</option>
+						<?php
+							$result = mysqli_query($dbc, "SELECT * FROM `links` WHERE type = 0");
+							while ($output = mysqli_fetch_assoc($result)) {
+								echo '<option value="'.$output['id'].'">'.$output['name'].'</option>'; }
+							?>
+					</select>
+				</div>
+			</div>
+			<input type="hidden" name="parent" value="" id="parent" />
+			<input type="hidden" name="date" value="<?php echo ''.$timestamp.''; ?>" />
 		</form>
 	</div>
-</div> <br />
-
+</div>
+<br>
+<br>
+<div class="ui divider"></div>
 <!--Add Folders-->
-<div class="row" id="list">
-	<div class="col-md-4">
+<div class="ui grid">
+	<div class="eight wide column">
 		<p>Recently added <b>folders</b> :</p>
+		<div class="ui list">
 		<?php
-			$result = mysqli_query($dbc, "SELECT * FROM links WHERE type = 0");
+			$result = mysqli_query($dbc, "SELECT * FROM `links` WHERE type = 0");
 			while ($output = mysqli_fetch_assoc($result)) {
-				echo ''.$folder.'<a href="#">'.$output['name'].'</a><br />'; }
+				echo '<div class="item"><i class="disabled caret right icon"></i><div class="content"><a href="#">'.$output['name'].'</a></div></div>'; }
 			?>
+		</div>
 	</div>
-  	<div class="col-md-4 col-md-offset-1">
-  		<p>Add new <b>folders</b> :</p>
-		<form method="post" action="db_add.php" role="form">
-		  <div class="form-group"><input type="text" name="name" value="" class="form-control" placeholder="Folder name" autocomplete="off"/></div>
-		  <input type="hidden" name="parent" value="0" />
-  		  <input type="hidden" name="type" value="0" />
-  		  <input type="hidden" name="icon" value="fa-folder-o" />
-		  <button name="submit" type="submit" class="btn btn-default pull-right" value="2"><i class="fa fa-folder-o"></i>Add folder</button><br />
+	<div class="eight wide column">
+		<p>Add new <b>folders</b> :</p>
+		<form method="POST" action="db_add.php" class="ui form" id="main">
+			<div class="field">
+				<input type="text" name="name" value="" placeholder="Folder name" autocomplete="off">
+				<input type="hidden" name="parent" value="0">
+				<input type="hidden" name="type" value="0">
+			</div>
+			<div class="field">
+				<button name="submit" type="submit" class="ui right floated basic button" value="2"><i class="folder outline icon"></i>Add folder</button>
+			</div>
 		</form>
-  	</div>
+	</div>
 </div>
 </div>
-
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-<script type="text/javascript" src="assets/javascript/jquery.tbs_dd.js"></script>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" ></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.3/dist/semantic.min.js"></script>
 <script type="text/javascript">
-$(document).ready(function () {
-	console.log("ready");
-	$('.dropdown-toggle').dropdown();
-	$("#_filter").dd_select({
-  		formID: "main",
-  		hiddenFieldName:"parent",
-  		submitOnChange: false,
-  		ajaxCall:{}
-	});
+$('.ui.dropdown').dropdown();
+	function run() {
+		document.getElementById("parent").value = document.getElementById("select").value;
+	}
+</script>
+<script type="text/javascript">
+$('.message .close').on('click', function() {
+	$(this).closest('.message').transition('fade');
 });
 </script>
 </body>

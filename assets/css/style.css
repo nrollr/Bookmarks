@@ -1,10 +1,12 @@
-a.none {text-decoration: none;color: silver;}
-a.edit {text-decoration: none;color: silver;}
 
-i {margin-right: 8px;}
-i.fa {color: gray;}
-i.fa.fa-refresh {margin-left: 5px; color: #dadcda;}
+a {
+	font-size: 14px;
+	color: #333A40;
+}
+.ui.dividing.header .sub.header {
+	padding: 5px 0px 5px 0px;
+}
 
-ul {list-style: none;}
-
-#list {border-bottom: 1px solid #EEE; padding-bottom: 20px;}
+.ui.list .list>.item, ol.ui.list ol li, ul.ui.list ul li {
+	padding-left: 15px;
+}

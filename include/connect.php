@@ -1,7 +1,13 @@
 <?php
-	// Replace 'host','username', 'password' and 'database' with the proper values
- 	$dbc = @mysqli_connect("host", "username", "pasword", "database");
+	// Database parameters, change to reflect your own environment
+	$db_host		= 'host_name';
+	$db_user		= 'user_name';
+	$db_pass		= 'password';
+	$db_database	= 'database_name';
 
-		if ($dbc->connect_errno) {echo "Failed to connect to MySQL: (" . $dbc->connect_errno . ") " . $dbc->connect_error;}
-		echo $mysqli->host_info . "\n";
+	// Open database connection
+	$dbc = mysqli_connect($db_host,$db_user,$db_pass,$db_database);
+	if($dbc === false){
+		die("Error: Could not connect. " . mysqli_connect_error());
+	}
 ?>
